@@ -569,8 +569,13 @@ You use the **XRANK** operator to boost the dynamic rank of items based on certa
     
     
  _Match expressions_ may be any valid KQL expression, including nested **XRANK** expressions. _Rank expressions_ may be any valid KQL expression without **XRANK** expressions. If your KQL queries have multiple **XRANK** operators, the final dynamic rank value is calculated as a sum of boosts across all **XRANK** operators.
+ 
+ 
+ 
+An **XRANK** expression can use an operator to examine the value managed property to determine if it a boost should be applied.
+
   
-    
+In addition to using free words on an expression, you can use {searchboxquery} to represent any potential term entered by an end user.     
     
 
 > **Note:**
@@ -676,7 +681,20 @@ The following advanced parameters are also available. However, typically they're
  `(animals XRANK(cb=100) dogs) XRANK(cb=200) cats`
   
     
-    
+**Example 5.** The following expression uses {searchterm}, and an operator (:) to inspect the value of a managed property called Rain. :    
+
+
+
+- Dynamic rank of items that contain both the term and have a managed property called Rain with a value equal to the search term is boosted by 100 points.
+
+
+- Consider a search term of "Cats and Dogs", we will look through the results for items with the managed property Rain. Of the items that contain both the term "Cats and Dogs" and the property Rain, with a value of "Cats and Dogs", will have the dynamic rank boosted by 100.
+
+
+
+`{searchboxquery} XRANK(CB=100) Rain:{searchboxquery}`
+
+
 
 ### Parenthesis
 
